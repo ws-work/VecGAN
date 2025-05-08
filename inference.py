@@ -24,13 +24,13 @@ if __name__ == "__main__":
         x_trg = infer_single_image(model, x, opts.mode, 
                                tag=opts.tag, attribute=opts.attribute, z=opts.z, 
                                device=opts.device)
-        out_file_name = f"{img_name}_out_tag:{opts.tag}_attr:{opts.attribute}_z:{opts.z}.jpg"
+        out_file_name = f"{img_name}_out_tag_{opts.tag}_attr_{opts.attribute}_z_{opts.z}.jpg"
     else:
         x_trg = infer_single_image(model, x, opts.mode, 
                                tag=opts.tag, 
                                ref_img_path=opts.reference_path, 
                                device=opts.device)
-        out_file_name = f"{img_name}_out_tag:{opts.tag}.jpg"
+        out_file_name = f"{img_name}_out_tag_{opts.tag}.jpg"
     save_img(x_trg, opts.output_path, out_file_name)
     print("Inference done!")
 

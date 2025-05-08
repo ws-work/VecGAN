@@ -1,12 +1,106 @@
+from re import L
+from config import model_config as config
+
 import os
-import sys
+import math
 
 from torch import nn
 import torch
 import torch.nn.functional as F
 import torchvision.models as models
 
-import math
+
+
+
+class Discriminator(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.tags = config.tags
+        channels = config.discriminators_channels
+
+        self.conv = nn.Sequential(
+            nn.Conv2d(config.input_dim, channels[0], 1, 1, 0),
+            *[DownBlock(channels[i], channels[i + 1]) for i in range(len(channels) - 1)],
+            nn.AdaptiveAvgPool2d(1),
+        )
+        for i in range(len(self.tags)):
+            if not self.tags[i].get('tag_irrelevant_conditions_dim'):
+                print(i)
+                exit()
+        self.fcs = nn.ModuleList([nn.Sequential(
+            nn.Conv2d(channels[-1] + 
+            # ALI part which is not shown in the original submission but help disentangle the extracted style. 
+            config.style_dim +
+            # Tag-irrelevant part. Sec.3.4
+            self.tags[i]['tag_irrelevant_conditions_dim'],
+            # One for translated, one for cycle. Eq.4
+            len(self.tags[i]['attributes'] * 2), 1, 1, 0),
+        ) for i in range(len(self.tags))])
+
+    def forward(self, x, s, y, i):
+        f = self.conv(x)
+        fsy = torch.cat([f, self.tile_like(s, f), self.tile_like(y, f)], 1)
+        return self.fcs[i](fsy).view(f.size(0), 2, -1)
+
+    def tile_like(self, x, target):
+        # make x is able to concat with target at dim 1.
+        x = x.view(x.size(0), -1, 1, 1)
+        x = x.repeat(1, 1, target.size(2), target.size(3))
+        return x
+        
+    def calc_dis_loss_real(self, x, s, y, i, j):
+        loss = 0
+        x = x.requires_grad_()
+        out = self.forward(x, s, y, i)[:, :, j]
+        loss += F.relu(1 - out[:, 0]).mean()
+        loss += F.relu(1 - out[:, 1]).mean()
+        loss += self.compute_grad2(out[:, 0], x)
+        loss += self.compute_grad2(out[:, 1], x)
+        return loss
+    
+    def calc_dis_loss_fake_trg(self, x, s, y, i, j):
+        out = self.forward(x, s, y, i)[:, :, j]
+        loss = F.relu(1 + out[:, 0]).mean()
+        return loss
+    
+    def calc_dis_loss_fake_cyc(self, x, s, y, i, j):
+        out = self.forward(x, s, y, i)[:, :, j]
+        loss = F.relu(1 + out[:, 1]).mean()
+        return loss
+
+    def calc_gen_loss_real(self, x, s, y, i, j):
+        loss = 0
+        out = self.forward(x, s, y, i)[:, :, j]
+        loss += out[:, 0].mean()
+        loss += out[:, 1].mean()
+        return loss
+
+    def calc_gen_loss_fake_trg(self, x, s, y, i, j):
+        out = self.forward(x, s, y, i)[:, :, j]
+        loss = - out[:, 0].mean()
+        return loss
+
+    def calc_gen_loss_fake_cyc(self, x, s, y, i, j):
+        out = self.forward(x, s, y, i)[:, :, j]
+        loss = - out[:, 1].mean()
+        return loss
+
+    def compute_grad2(self, d_out, x_in):
+        batch_size = x_in.size(0)
+        grad_dout = torch.autograd.grad(
+            outputs=d_out.sum(), inputs=x_in,
+            create_graph=True, retain_graph=True, only_inputs=True
+         )[0]
+        grad_dout2 = grad_dout.pow(2)
+        assert(grad_dout2.size() == x_in.size())
+        reg = grad_dout2.view(batch_size, -1).sum(1)
+        return reg.mean()
+
+    def tile_like(self, x, target):
+        # make x is able to concat with target at dim 1.
+        x = x.view(x.size(0), -1, 1, 1)
+        x = x.repeat(1, 1, target.size(2), target.size(3))
+        return x
 
 """
 Model definition for the VecGAN generator.
@@ -16,18 +110,18 @@ Model definition for the VecGAN generator.
                 Default is True.
 """
 class Generator(nn.Module):
-    def __init__(self, hyperparameters, random_init=True):
+    def __init__(self, hyperparameters=None, random_init=True):
         super(Generator, self).__init__()
 
         # Registering hyperparameters
-        self.tags = hyperparameters["tags"]
-        self.encoder_channels = hyperparameters["encoder_channels"]
-        self.decoder_channels = hyperparameters["decoder_channels"]
-        self.latent_dim = hyperparameters["latent_dim"]
+        self.tags = config.tags
+        self.encoder_channels = config.encoder_channels
+        self.decoder_channels = config.decoder_channels
+        self.latent_dim = config.latent_dim
 
         # Defining model parts
         self.encoder = nn.Sequential(
-            nn.Conv2d(hyperparameters["channel_size"], self.encoder_channels[0], 1, 1, 0),
+            nn.Conv2d(config.channel_size, self.encoder_channels[0], 1, 1, 0),
             *[DownBlockIN(self.encoder_channels[i], self.encoder_channels[i+1]) for i in range(len(self.encoder_channels) - 2)],
             DownBlock(self.encoder_channels[len(self.encoder_channels) - 2], self.encoder_channels[len(self.encoder_channels) - 1])
         ) # Encoder to extract latent code from input image
@@ -35,15 +129,15 @@ class Generator(nn.Module):
         self.decoder = nn.Sequential(
             UpBlock(self.decoder_channels[0], self.decoder_channels[1]),
             *[UpBlockIN(self.decoder_channels[i], self.decoder_channels[i+1]) for i in range(1, len(self.decoder_channels) - 1)],
-            nn.Conv2d(self.decoder_channels[-1], hyperparameters["channel_size"], 1, 1, 0)
+            nn.Conv2d(self.decoder_channels[-1], config.channel_size, 1, 1, 0)
         ) # Decoder to generate an image from edited/non-edited latent code
 
         style_channels = self.encoder_channels[-1]
 
         self.encoder_map_dim = torch.tensor([
             style_channels,
-            hyperparameters["img_dim"] // 2**(len(self.encoder_channels) - 1),
-            hyperparameters["img_dim"] // 2**(len(self.encoder_channels) - 1)
+            config.img_dim // 2**(len(self.encoder_channels) - 1),
+            config.img_dim // 2**(len(self.encoder_channels) - 1)
         ]) # Dimensions of encoder output
 
         self.enc_dim = torch.prod(self.encoder_map_dim)
@@ -122,8 +216,11 @@ class Generator(nn.Module):
     :param alpha: The scale for the translation
     """
     def translate(self, e, tag, alpha):
-        dir_vector = torch.mul(self.direction_matrix[tag, :], alpha)
-        return e + dir_vector
+        return e +  torch.mul(self.direction_matrix[tag, :], alpha)
+
+    def calc_gen_loss_real(self):
+        A = self.direction_matrix
+        return torch.norm(A.T @ A - torch.eye(A.shape[1], device=A.device), p='fro')
     
     """
     Loads generator weights from a checkpoint file

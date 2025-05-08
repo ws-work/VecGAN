@@ -1,0 +1,570 @@
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+\usepackage[left=3cm, right=3cm]{geometry}
+
+\usepackage{amsmath}
+\numberwithin{equation}{section}
+\renewcommand\thesection{\arabic{section}}
+\allowdisplaybreaks[4]       %多行公式中换页
+\usepackage{array}
+\usepackage[font=small,labelsep=none]{caption}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+\usepackage{dutchcal}
+\usepackage{color}
+\usepackage{graphicx}    %插入图片 
+\usepackage{times}
+\usepackage{mathptmx}
+\usepackage{fancyhdr} %页眉页脚
+\usepackage{booktabs}  %三线表
+
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+
+\newcommand*{\circled}[1]{\lower.7ex\hbox{\tikz\draw (0pt, 0pt)%
+    circle (.5em) node {\makebox[1em][c]{\small #1}};}}
+    
+\usepackage{hyperref}  %目录
+\hypersetup{colorlinks=true,linkcolor=black}
+
+\renewcommand {\thefigure} {\thesection{}.\arabic{figure}}%设定图片的编号。这样设置的实现效果为图1.1
+\renewcommand {\thetable} {\thesection{}.\arabic{table}}
+
+
+\usepackage{caption}
+\captionsetup{font={small},labelsep=quad}%文字5号，之间空一个汉字符位。
+
+\usepackage{appendix}
+\usepackage{tocloft} 
+\usepackage{titletoc}
+
+\usepackage{setspace}
+\usepackage{titlesec}
+\setstretch{1.25}
+
+
+% 设置section字体为黑体三号
+\titleformat{\section}{\heiti\zihao{3}\centering}{\thesection}{0.5em}{}[]
+% 设置subsection字体为黑体小三号
+\titleformat{\subsection}{\heiti\zihao{-3}}{\thesubsection}{0.5em}{}[]
+% 设置subsubsection字体为黑体四号
+\titleformat{\subsubsection}{\heiti\zihao{4}}{\thesubsubsection}{0.5em}{}[]
+%\titlespacing{\section}{0pt}{\baselineskip}{\baselineskip}
+%\titlespacing{\section}{0pt}{0pt}{\baselineskip}
+
+% 目录中section的格式
+\titlecontents{section}[0pt]{\addvspace{0pt}\filright\heiti\zihao{4}}%
+               {\contentspush{\thecontentslabel \quad}}%
+               {}{\titlerule*[8pt]{.}\contentspage}
+% 目录中subsection的格式
+\titlecontents{subsection}[1em]{\addvspace{0pt}\filright\heiti\zihao{5}}%
+               {\contentspush{\thecontentslabel \quad}}%
+               {}{\titlerule*[8pt]{.}\contentspage}
+% 目录中subsubsection的格式
+\titlecontents{subsubsection}[2em]{\addvspace{0pt}\filright\songti\zihao{5}}%
+               {\contentspush{\thecontentslabel \quad}}%
+               {}{\titlerule*[8pt]{.}\contentspage}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} %为目录中section补上引导点
+               
+\makeatletter % 单线页眉
+\def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+\hrule\@height 0.5pt \@width\headwidth\vskip1.5pt% 上面线为0.5pt粗
+\vskip-2\headrulewidth\vskip-1pt}}     % 与下面正文之间的垂直间距
+\makeatother
+
+
+
+\setlength{\headheight}{14.48167pt} 
+\setlength{\voffset}{-1.14cm}
+\setlength{\topmargin}{0cm}
+\setlength{\headsep}{2.5cm}
+
+
+\begin{document}
+
+\thispagestyle{empty}
+
+
+
+
+\begin{center}
+\heiti  \zihao{-2} 重庆大学本科学生毕业论文（设计）
+\end{center}
+%该页为中文扉页。无需页眉页脚，纸质论文应装订在右侧
+~\\
+\begin{center}
+\heiti  \zihao{2} XXX计算方法的研究
+\end{center}
+%中文论文标题，1行或2行，黑体，二号，居中。论文题目不得超过36个汉字
+
+~\\
+\renewcommand{\headrulewidth}{1pt}
+\begin{figure}[htb] 
+  \centering
+    \center{\includegraphics[width=5cm]  {fig1.png}} 
+     \end{figure}
+     
+~\\
+\begin{center}
+\heiti\zihao{4}
+\begin{tabular}{l}
+学\qquad 生：王肖阳\\
+学\qquad 号：20214842\\
+指导教师：郑洪英\\
+专\qquad 业：计算机科学与技术\\
+\end{tabular}
+\end{center}
+
+%此模版适用于理工农医等专业；人文社科类专业按《重庆大学普通本科毕业论文（设计）撰写规范化要求》。  若没有助理指导教师，请删除“助理指导教师姓名”栏。若为校外完成毕业论文（设计），请改为“校外指导教师姓名”即可。  学院、专业填全称。
+
+~\\
+\begin{center}
+\heiti \zihao{-2} {重庆大学计算机学院}\\
+\end{center}
+
+\begin{center}
+\heiti \zihao{3} {2025年6月}
+\end{center}
+
+
+
+\newpage
+\thispagestyle{empty}
+\setmainfont{Times New Roman}
+\begin{center}
+\zihao{3}
+\textbf{
+Undergraduate Thesis (Design) of Chongqing University}
+\end{center}
+~\\
+\begin{center}
+\zihao{2}
+\textbf{
+Study on Calculation method of XXX }
+\end{center}
+
+~\\
+\renewcommand{\headrulewidth}{1pt}
+\begin{figure}[htb] 
+  \centering
+    \center{\includegraphics[width=5cm]  {fig1.png}} 
+     \end{figure}
+     
+
+\setmainfont{Times New Roman}
+\begin{center}
+\zihao{3} 
+\textbf{By}  \\
+\textbf{WANG Jianhua }
+\end{center}
+
+\begin{center}
+\zihao{3} 
+\textbf{Supervised by}\\
+\textbf{Prof. YANG XX}\\
+\textbf{and}\\
+\textbf{Prof. LI XX}
+\end{center}
+
+\begin{center}
+\zihao{-2} 
+\textbf{XXXXXX}\\ %专业
+\textbf{XXXXXX}\\ %学院
+\textbf{Chongqing University}
+\end{center}
+
+\begin{center}
+\zihao{3} 
+\textbf{June，20XX}
+\end{center}
+
+
+\newpage
+\pagestyle{fancy}
+\pagenumbering{Roman}
+
+% 设置左侧页眉
+\fancyhead[LH]{ \songti\zihao{-5} 重庆大学本科学生毕业论文（设计）}
+\fancyhead[RH]{\songti\zihao{-5} 摘要}
+
+
+
+\addcontentsline{toc}{section}{摘要}
+
+\section*{摘\quad 要}
+%摘要：二字间空两格，黑体三号居中，段前，段后各空一行。
+
+摘要是论文（设计）内容不加注释和评论的简短陈述，应具有独立性和自明性，即不阅读论文（设计）的全文，就可以获得必要的信息。\par 
+摘要一般应说明研究工作的目的 和意义、研究思想和方法、研究过程、研究结果和最终结论等。摘要中一般不用图、表、化学结构式、计算机程序，不用非公知公用的符号、术语和非法定的计量单位。\par 
+中文摘要一般为300-500汉字。\par 
+摘要页置于英文题名页后。 \par 
+关键词是从论文（设计）题名、摘要或正文中选取的对表示论文（设计）主题内容起关键作用，且具有检索意义的词或词组。一般每篇论文（设计）应选取3-5个词作为关键词，以显著的字符另起一行，排在同种语言摘要的下方，尽量用《汉语主题词表》或各专业主题词表提供的规范词。\par 
+关键词与摘要的内容之间空一行。关键词的词间用分号间隔，末尾不加标点。\\
+~\\
+\hspace*{2em}{\heiti \zihao{-4}关键词}：学位论文；论文格式；规范化；模板\\
+%关键字：宋体12磅，行距20磅，段前段后0磅，关键字之间用分号隔开,关键词三个字加粗。
+
+\newpage
+\fancyhead[LH]{ \songti\zihao{-5} 重庆大学本科学生毕业论文（设计）}
+\fancyhead[RH]{\zihao{-5} ABSTRACT}
+
+\addcontentsline{toc}{section}{ABSTRACT}
+\titleformat{\section}[block]{\centering\bfseries\fontspec{Times New Roman}\fontsize{16pt}{20pt}\selectfont}{\thesection}{1em}{}[]
+
+\section*{ABSTRACT}
+%ABSTRCT：Times New Roman 加粗三号，段前段后空一行
+
+As a primary means of demonstrating research findings for undergraduate students, dissertation is a systematic and standardized record of the new inventions, theories or insights obtained by the author in the research work. It can not only function as an important reference when students pursue further studies, but also contribute to scientific research and social development.\par 
+This template is therefore made to improve the quality of undergraduates’ dissertation and to further standardize it both in content and in format.
+%英文摘要内容：Times New Roman 12磅（即小四号），行距20磅段前段后0磅
+
+~\\ 
+\hspace*{2em}\textbf{Key words}: dissertation;dissertation format;standardization;template\\
+%Keywords：Times New Roman 12磅，行距20磅， “key words” 两词加粗
+
+\newpage
+\fancyhead[LH]{ \songti\zihao{-5} 重庆大学本科学生毕业论文（设计）}
+\fancyhead[RH]{\songti\zihao{-5} 目录}
+
+\renewcommand\contentsname{{目\quad 录}}
+
+\begin{center}
+{\tableofcontents
+\thispagestyle{fancy}
+\fancyhead [RO, L] {\zihao{-5}{\songti 1\quad 绪论}}
+\fancyhead [LO, R] {\zihao{-5}{\songti 重庆大学本科学生毕业论文（设计）}}
+}
+\end{center}
+
+
+
+\newpage
+\fancyhead[LH]{\zihao{-5}{\songti 重庆大学本科学生毕业论文（设计）}}
+\fancyhead[RH]{\zihao{-5}{\songti 1\quad 绪论}}
+\pagenumbering{arabic}
+
+
+\titleformat{\section}{\heiti\zihao{3}\centering}{\thesection}{0.5em}{}[]
+\section{绪论}
+\subsection{引言}
+\zihao{-4} 
+随着科技不断进步及社会发展，人脸识别技术在学术研究和技术应用方面都取得了显著进展。人脸识别的研究不仅推动了图像处理、模式识别、计算机视觉、计算机图形学等学术领域的发展，还在海关安检、扫脸支付、刑侦探测等实际应用场景中发挥了重要作用。相较于传统的身份认证以及指纹、虹膜等生物特征识别技术，人脸识别技术因其无需直接接触、符合人类自然识别习惯、交互性强、不易被盗取以及高效迅速的特点，被认为在保障公共安全、信息安全和金融安全方面具有巨大的潜力\cite{基于深度卷积神经网络的人脸识别技术综述}，但同时也引发了隐私泄露的担忧。这种担忧在实时面部捕捉对身份验证或识别至关重要的应用中尤为突出\cite{A survey on machine learning-based facial recognition algorithm}，因为面部识别提供了一种安全快速便捷的权限验证方法，但研究\cite{An overview of privacy-enhancing technologies in biometric recognition, How good is ChatGPT at face biometrics}表明人脸图像不仅包含用于识别和验证的身份信息还包含丰富的软生物特征属性信息，这些软生物特征属性可能可以推断出用户的性格、习惯等隐私信息。因此，不可信的第三方服务提供商可以从中提取用户的敏感信息，用于信息贩卖、恶意广告或其他有害活动。因此，保护软生物特征隐私属性的研究受到了越来越多的关注。
+
+保护软生物识别属性的主要挑战之一在于身份和属性信息之间的高度纠缠。保护敏感属性不可避免地会导致身份识别效用的损失。现有的软生物特征隐私保护（SBPE）\cite{Soft biometrics: a survey. Multim Tools Appl} 技术主要分为两类：图像级技术和表示级技术。其中，图像级技术的开发目的是在保留身份识别功能的同时模糊人脸图像；表征级技术侧重于处理从人脸图像中提取的表征，在保留身份识别效用的同时误导属性分类器。然而，表征可能并不适合其他应用，因为它们既不能被人类直接解读，也不能与未来的人脸识别系统兼容。
+
+\subsection{研究意义}
+\zihao{-4} 
+k-same算法是过去隐私保护领域中的重要算法\cite{Preserving privacy
+by de-identifying face images}，它通过将数据库中k张相似的人脸图像进行合成从而确保从生成图像推算出原始图像的概率不超过$\frac{1}{k}$从而保护原始人物身份，一些改良方法使用了主动外观模型（AAMs）\cite{Active appearance models revisited}等其他模型来显式构建保留性别、种族和年龄等效用属性的人脸\cite{Attribute preserved face de-identification}。k-same算法通过多图像合成来保护隐私的思想对我们有启发级意义，但k-same算法本身合成的图像质量不高，容易产生“鬼影”导致图像不自然。
+
+生成对抗网络（GANs）为我们提供了生成更拟真更自然图像的方法\cite{Generative adversarial nets.}，条件生成对抗网络（cGANs）则允许我们设定一定的条件来引导GANs最终生成图像的特征，这启发了大量基于GANs/cGANs的生成式隐私保护模型\cite{Privacy-Protective-GAN for Face De-identification, Image-to-image Translation via Hierarchical Style Disentanglement, Stargan v2: Diverse image synthesis for multiple domains}。他们的主要工作在于保留其他属性的同时实现目标属性的编辑。大多模型使用了单独的属性编码器从原始图像中提取出它的属性向量，另有风格迁移器负责从其他图片中提取所需的属性模板并注入到原始的属性向量中，再根据这个被注入过的属性向量来重新生成具有提取的属性的图像。
+
+本文的方法是基于GANs的高质量图像生成能力，并且可以在没有参考图像和风格迁移器的情况下根据我们的要求直接生成有对应特征的图像。另外，之前的模型所生成的属性向量是不可解释的，也无法直接控制属性注入的强度，但一些研究\cite{Interpreting the latent space of GANs for semantic face editing}发现GANs可以将图像提取到可解释的潜空间中，并且可以通过在潜在空间中进行操作来实现对结果的编辑。这启发了本模型生成可解释的正交的属性向量，其每一维度正好对应我们所设置的特征。提供对指定维度进行指定的修改可以轻易地控制其所对应的特征以及控制修改的强度。
+
+\subsection{主要研究内容}
+\zihao{-4} 
+本文聚焦于图像层面的隐私保护技术，提出了一种基于生成对抗网络（GANs）的图像翻译模型。该模型以原始人脸图像和属性标签作为输入，旨在通过对图像中人物特征，尤其是软生物特征的有针对性修改或模糊处理，干扰潜在攻击者的识别，从而实现个体隐私的有效保护。
+
+所提出的模型本质上是一种端到端可训练的图像到图像翻译网络，与传统方法相比，本模型无需依赖单独的风格提取模块或参考图像，而是通过对潜空间向量的直接操控，实现对图像属性的灵活编辑。该编辑过程由编码器-解码器架构完成，并允许用户精确控制特定特征的修改强度。
+
+模型的潜在空间具有良好的可解释性，能够明确地将特定语义特征与潜空间中的方向向量建立对应关系。通过沿这些方向向量进行有控制的偏移，可实现对目标特征的可调节修改，同时保证图像的自然性与一致性。
+
+除了采用对抗训练机制以提升生成图像的真实感外，本模型还引入了CycleGANs框架中的无监督循环一致性约束，并设计了一种正交约束机制，确保潜在空间在保持可解释性的同时具备良好的解耦性与表示能力。
+
+我们在多个基准数据集上开展了大量实验，结果表明该方法在本地和全局属性编辑任务中均优于现有最先进方法，在隐私保护与图像质量之间实现了更优的平衡。
+
+\subsection{文章结构}
+\zihao{-4} 
+xxx
+
+\subsection{本章小结}
+\zihao{-4} 
+
+本节简要介绍了人脸识别技术的快速发展在带来便利的同时，也引发了对个体隐私泄露的广泛关注，尤其是软生物特征属性的滥用风险。当前主流的隐私保护方法，如k-same算法和基于GANs的生成式模型，虽各有成效，但仍存在图像质量差、依赖参考图像或属性不可控等问题。为此，本文提出一种基于GANs的可解释属性编辑模型，能够在无参考图像的前提下直接对人脸图像中可控属性进行修改，达到保护隐私的目的。该方法在提升图像自然度的同时兼顾属性解耦与可控性，在多个实验中均展示出优越性能。本研究不仅为图像级隐私保护提供了新思路，也为后续章节的深入讨论奠定了坚实基础，体现了人脸图像隐私保护研究的现实价值与理论意义。
+
+\newpage
+\fancyhead[LH]{\zihao{-5}{\songti 重庆大学本科学生毕业论文（设计）}}
+\fancyhead[RH]{\zihao{-5}{\songti 2\quad 正文文字格式}}
+
+\section{相关研究}
+\subsection{生成对抗网络(GANs)} 
+\zihao{-4} 
+GANs最早由 Goodfellow 等人在 2014 年提出，是一种以博弈论为基础的深度学习模型结构，主要用于生成高质量的数据样本。GANs 的基本思想是通过两个神经网络——生成器（Generator）和判别器（Discriminator）之间的对抗过程，使生成器不断学习真实数据的分布，从而生成以假乱真的样本。生成器试图生成尽可能接近真实的样本以“欺骗”判别器，而判别器的任务则是尽可能准确地区分真实样本和生成样本。这种对抗机制使得GAN能够生成高质量的图像、音频以及其他高维数据。
+
+这一过程可以等价于下面公式：
+\begin{eqnarray} \label{eq2.1}
+\min_G \max_D V(D, G) = \mathbb{E}_{x \sim p_{\text{data}}(x)}[\log D(x)] + \mathbb{E}_{z \sim p_z(z)}[\log (1 - D(G(z)))]
+\end{eqnarray}
+其中，G 是生成器，D 是判别器，$p_{data}$是真实数据分布，$p_z$是潜在空间的先验分布。GANs在图像生成、风格迁移、数据增强等众多任务中都取得了显著成果，被广泛应用于计算机视觉乃至自然语言处理和语音处理等多个领域。
+
+\subsection{图像到图像翻译} 
+\zihao{-4} 
+图像到图像翻译是一类计算机视觉任务，其目标是在保持原图结构内容的同时，将图像从一个视觉域转换到另一个视觉域。该任务在语义分割图像转换、彩色化、图像修复、人脸表情转换、医学影像分析等领域有广泛应用。
+
+早期的方法如 Pix2Pix（Isola et al., 2017）将该任务建模为一种有条件的图像生成问题，结合条件 条件GAN（cGAN）和 L1 损失，实现了在成对训练样本下从输入图像到目标图像的映射。Pix2Pix 在多个图像转换任务中取得了优异的效果，但它依赖于成对样本的训练，即训练集中的图像需要一一对应，但相关数据集稀少而且在实际使用中难以寻找所需的数据。
+
+\subsection{CycleGANs}
+\zihao{-4} 
+CycleGAN（Zhu et al., 2017）是解决无配对图像翻译问题的重要方法之一，突破了传统图像翻译对成对训练样本的依赖。CycleGAN 的核心思想是使用两个 GAN 分别完成从域 A 到域 B 的转换，以及从域 B 到域 A 的反向转换。为了保证转换后的图像在语义上仍与原始图像保持一致，CycleGAN 引入了“循环一致性损失”（Cycle Consistency Loss），即：
+\begin{eqnarray}
+\mathcal{L}_{\text{cyc}}(G, F, x, y) = \mathbb{E}_{x \sim p_{\text{data}}(x)} \left[ \| F(G(x)) - x \|_1 \right] + \mathbb{E}_{y \sim p_{\text{data}}(y)} \left[ \| G(F(y)) - y \|_1 \right]
+\end{eqnarray}
+其中$G$是从域A到域B的生成器，$F$是从域B到域A的生成器, $x$和$y$是A和B中的采样。通过最小化循环一致性损失，CycleGAN 保证了图像在经过两次转换后仍能还原到原始图像，从而有效缓解了在无配对数据条件下的训练不确定性。
+
+CycleGAN 的提出极大拓展了图像翻译任务的适用范围，使其在艺术风格转换、卫星图像转地图、人脸属性修改等多个实际任务中取得显著成果。此外，CycleGAN 也为后续的诸如MUNIT 和 StarGAN 等方法提供了理论基础和实现思路。相关方法在处理多领域、多模态、多尺度图像转换任务上表现出越来越强的能力。
+
+\newpage
+\fancyhead[LH]{\zihao{-5}{\songti 重庆大学本科学生毕业论文（设计）}}
+\fancyhead[RH]{\zihao{-5}{\songti 2\quad 正文文字格式}}
+
+\section{模型与方法}
+\subsection{模型简介}
+\zihao{-4} 
+
+本文所提出的模型采用cGANs的架构，大体上包含生成器和判别器两个模型。
+
+生成器是我们最终用以执行图像到图像翻译任务以修改模糊化其特征的模型。这个生成器接收我们需要修改的原始图像和需要修改的特征的独热编码，然后会将提取的风格向量作用到原始图像在潜空间中的映射并于此重新生成新的具有修改后的特征的图像。这里提取风格向量可以按照传统方法从一个参考图像中提取出来，也可以直接根据我们的要求依据模型的先验知识推断出来。此外，我们还希望生成器可以获得一个可解释的潜空间，使我们能够执行标签特定的特征插值。后面的小节会有生成器的详细介绍。
+
+判别器是基于GANs的思想，用以和生成器一起对抗训练从而提高生成器最终输出结果的质量。cGANs的判别器稍微做了修改，其输入不在是生成的图像和标准图像而是生成图像、提取的特征向量、要求修改的特征。
+
+受到StarGAN\cite{StarGAN}的启发，判别器包含一个特征提取模块和多个判别模块，每个判断模块负责对指定的特征进行判别，最终的结果包含图像的真实程度以及图像在当前特征下各个可选特征值的可靠性。判别器具体的架构可以见\ref{判别器的架构}
+
+\begin{table}[htbp]
+\centering
+\caption{判别器的架构}
+\label{判别器的架构}
+\small
+\begin{tabular}{l l}
+\toprule
+特征提取模块 &判别模块 \\
+\midrule
+Conv(3,64,1)&\\
+DownBlock(64)&\\
+DownBlock(128)&\\
+DownBlock(256)&\\
+DownBlock(512)&补充提取的特征向量为新的维度\\
+DownBlock(1024)&补充特征的独热编码为新的维度\\
+AdaptiveAvgPool2d&Conv\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{生成器}
+\zihao{-4} 
+生成器主体采用的是Encoder-Decoder模型。Encoder负责分析原始图像，提取特征表示并将其映射到对应的潜空间中，Decoder则负责将这个映射重新恢复为图像。为了实现我们对指定特征进行修改的任务要求，需要添加额外的迁移模块来根据我们提供的风格向量和对应的特征来对原始图像在潜空间中的映射进行调整和移动使其在潜空间中满足我们对指定特征的修改，在交由Decoder来对这个求改过的映射恢复为有修改过的特征的图像。公式\ref{encode模型}对其进行了数学化表达，图\ref{encode模型示意图}则形象化描述了这一过程。
+
+\begin{eqnarray}
+\label{encode模型}
+    e = E(x)
+    e^' = T(e, \alpha, i)
+    x^' = D(E^')
+\end{eqnarray}
+
+这里的E()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\fancyhead[LH]{\zihao{-5}{\songti 重庆大学本科学生毕业论文（设计）}}
+\fancyhead[RH]{\zihao{-5}{\songti 2\quad 正文文字格式}}
+
+\section{正文文字格式}
+\subsection{论文正文}
+\zihao{-4} 
+论文正文是主体，一般由标题、文字叙述、图、表格和公式等部分构成。一般可包括理论分析、计算方法、实验装置和测试方法，经过整理加工的实验结果分析和讨论，与理论计算结果的比较以及本研究方法与已有研究方法的比较等，因学科性质不同可有所变化。\par
+
+\subsection{字数要求}
+\subsubsection{本科论文字数要求}
+\zihao{-4} 
+论文主体部分字数要求：理工类专业一般不少于1.5万字，其他专业一般不少于1.0万字。
+
+\subsection{本章小结}
+\zihao{-4} 
+本章介绍了……
+
+\newpage
+\fancyhead[LH]{\zihao{-5}{\songti 重庆大学本科学生毕业论文（设计）}}
+\fancyhead[RH]{\zihao{-5}{\songti 3\quad 图表、公式格式}}
+
+\section{图表、公式格式}
+\subsection{图表格式}
+\zihao{-4} 
+本章将主要介绍一些图表和公式的格式...\\
+
+\begin{figure}[htb] 
+\center{\includegraphics[width=0.95\textwidth]  {fig2.png}} 
+\caption{内热源沿径向的分布}
+\end{figure} %图表上下各空一行
+
+\begin{table}[htbp]
+\centering
+\caption{高频感应加热的基本参数}
+\small
+\begin{tabular}{c c c c}
+\toprule
+感应频率 &感应发生器功率 & 工件移动速度  &感应圈与零件间隙\\
+（KHz）&($\% \times$80Kw) &(mm/min)  &(mm)\\
+\midrule
+250 &88 &5900 &1.65\\
+
+250 &88 &5900 &1.65\\
+
+250 &88 &5900 &1.65\\
+
+250 &88 &5900 &1.65\\
+
+
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[htbp]
+\centering
+\captionsetup{singlelinecheck=off}
+\caption*{续表3.1}
+\small
+\begin{tabular}{c c c c}
+\toprule
+感应频率 &感应发生器功率 & 工件移动速度  &感应圈与零件间隙\\
+（KHz）&($\% \times$80Kw) &(mm/min)  &(mm)\\
+\midrule
+250 &88 &5900 &1.65\\
+
+250 &88 &5900 &1.65\\
+\bottomrule
+\end{tabular}
+\end{table}
+\vspace{\baselineskip}
+%表格太大需要转页时，需要在续表上方注明“续表”，表头也应重复排出。
+
+
+\subsection{公式格式}
+
+
+\begin{eqnarray}
+\frac{1}{\mu} \nabla^2A - j \omega \sigma A -\nabla(\frac{1}{\mu}) \times(\nabla \times A)+J_0=0
+\end{eqnarray}
+
+
+\subsection{本章小结}
+\zihao{-4} 
+本章介绍了……
+
+\newpage
+\fancyhead[LH]{\zihao{-5}{\songti 重庆大学本科学生毕业论文（设计）}}
+\fancyhead[RH]{\zihao{-5}{\songti 4\quad 结论与展望}}
+\section{结论与展望}
+
+\subsection{主要结论}
+\zihao{-4} 
+本文主要……
+
+\subsection{研究展望}
+\zihao{-4} 
+更深入的研究……
+
+\newpage
+\fancyhead[LH]{\zihao{-5}{\songti 重庆大学本科学生毕业论文（设计）}}
+\fancyhead[RH]{\zihao{-5}{\songti 参考文献}}
+
+\addcontentsline{toc}{section}{参考文献}
+\renewcommand\refname{参考文献}
+
+\zihao{5}
+
+\begin{thebibliography}{1}
+\setlength{\itemsep}{0pt}
+\bibitem{基于深度卷积神经网络的人脸识别技术综述} 景晨凯, 宋涛, 庄雷, 等. 基于深度卷积神经网络的人脸识别技术综述[J]. 计算机应用与软件, 2018, 35(1): 223-231.
+\bibitem{A survey on machine learning-based facial recognition algorithm} Raj R, Balakrishna S, Kulal D H, et al. A survey on machine learning-based facial recognition algorithm[C]//2022 International Conference on Smart Technologies and Systems for Next Generation Computing (ICSTSN). IEEE, 2022: 1-7.
+\bibitem{An overview of privacy-enhancing technologies in biometric recognition} Melzi P, Rathgeb C, Tolosana R, et al. An overview of privacy-enhancing technologies in biometric recognition[J]. ACM Computing Surveys, 2024, 56(12): 1-28.
+\bibitem{How good is ChatGPT at face biometrics} Deandres-Tame I, Tolosana R, Vera-Rodriguez R, et al. How good is chatgpt at face biometrics? a first look into recognition, soft biometrics, and explainability[J]. IEEE Access, 2024.
+\end{thebibliography}
+%（参考文献格式请参考GB/T 7714-2015《信息与文献 参考文献著录规则》）
+
+\newpage
+\fancyhead[LH]{\zihao{-5}{\songti 重庆大学本科学生毕业论文（设计）}}
+\fancyhead[RH]{\zihao{-5}{\songti 附录A：XX公式的推导}}
+
+\addcontentsline{toc}{section}{附录A：XX公式的推导}
+\section*{附录A：XX公式的推导}
+\zihao{5}
+XX公式的推导过程是：
+
+\newpage
+\fancyhead[LH]{\zihao{-5}{\songti 重庆大学本科学生毕业论文（设计）}}
+\fancyhead[RH]{\zihao{-5}{\songti 致谢}}
+
+\addcontentsline{toc}{section}{致谢}
+\section*{致\quad 谢}
+\zihao{-4}
+致谢主要感谢导师和对论文工作有直接贡献和帮助的人士和单位。致谢言语应谦虚诚恳，实事求是。
+
+\newpage
+\thispagestyle{empty}
+
+\addcontentsline{toc}{section}{原创性声明和使用授权书}
+\begin{center}
+\heiti \zihao{3}
+原创性声明
+\end{center}
+
+\songti\zihao{-4}
+郑重声明：所呈交的论文（设计）\underline{《  \hspace{6em}》}，是本人在导师的指导下，独立进行研究取得的成果。除论文（设计）中已经标注引用的内容外，本论文（设计）不包含其他人或集体已经发表或撰写过的作品成果。对本文的研究做出贡献的个人和集体，均已在文中以明确方式标明。本人完全意识到本声明的法律后果，并承诺因本声明而产生的法律结果由本人承担。
+
+~\\
+\begin{flushleft}
+\begin{tabular}{l}
+\songti\zihao{-4}
+论文（设计）作者签名: \underline{\hspace{6em}}\\
+\songti\zihao{-4}
+日期：\underline{\hspace{6em}}
+\end{tabular}
+\end{flushleft}
+
+~\\
+\begin{center}
+\heiti \zihao{3}
+使用授权书
+\end{center}
+
+\songti\zihao{-4}
+本论文（设计）作者完全了解学校有关保留、使用论文（设计）的规定，同意学校保留并向国家有关部门或机构送交论文（设计）复印件和电子版，允许论文（设计）被查阅和借阅。本人授权重庆大学将本论文（设计）的全部或部分内容编入有关数据库进行检索，可以采用影印、缩印或扫描等复制方式保存和汇编本论文（设计）。
+
+~\\
+\songti\zihao{-4}
+本论文（设计）属于：\par
+保\quad 密 $\Box$  \quad 在\underline{\qquad}年解密后适用本授权书\par
+不保密 $\Box$
+
+~\\
+~\\
+\begin{flushleft}
+\songti\zihao{-4}
+\begin{tabular}{l l}
+论文（设计）作者签名：\underline{\hspace{6em}} \hspace{300mm}&指导教师签名：\underline{\hspace{6em}} \\
+日期：\underline{\hspace{6em}} &日期：\underline{\hspace{6em}}\\
+\end{tabular}
+\end{flushleft}
+
+\end{document} 

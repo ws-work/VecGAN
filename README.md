@@ -42,15 +42,7 @@ To run the inference code, you can use the following commands:
 
 ```
 # Latent-guided
-python inference.py --device <cuda or cpu> \
-                    --config_path <path to config file> \
-                    --checkpoint_path <path to checkpoint file> \
-                    --input_path <path to input image> \
-                    --output_path <path to output_folder> \
-                    --mode l \
-                    --tag <5> (check the config file for the index order) \
-                    --attribute <0> (check the config file for the index order) \
-                    --z <a scalar value within the range [0, 1]>
+python inference.py --device cuda  --config_path config\model_config.py    --checkpoint_path checkpoints\gen_00420000.pt   --input_path F:\小项目\ptyhon项目\深度学习\VecGAN\samples\hair_color\input\3030.jpg --output_path F:\小项目\ptyhon项目\深度学习\VecGAN\samples\hair_color\output  --mode l  --tag 2    --attribute 2  --z 0.6
 ```
 
 ```
